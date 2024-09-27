@@ -1,0 +1,355 @@
+/* body {
+    font-family: Arial, sans-serif;
+  }
+  
+  .table-container {
+    width: 80%;
+    margin: 20px auto;
+    text-align: center;
+  }
+  
+  .table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  
+  .table th, .table td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+  }
+  
+  .table th {
+    cursor: pointer;
+    background-color: #f2f2f2;
+  }
+  
+  .table td input {
+    width: 100%;
+    box-sizing: border-box;
+  }
+  
+  .edit-btn, .save-btn {
+    padding: 5px 10px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    cursor: pointer;
+  }
+  
+  .save-btn {
+    background-color: #2196F3;
+  }
+  
+
+  .table-striped tr.selected {
+    background-color: #e0f7fa;
+  }
+  
+  input[type="checkbox"] {
+    transform: scale(1.5); 
+    margin-right: 10px;
+  }
+  
+  .modal {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.4);
+  }
+  
+  .modal-content {
+    background-color: #fefefe;
+    margin: 15% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 50%;
+  }
+  
+  .close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+  }
+  
+  .close:hover,
+  .close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+  }
+  
+  button {
+    margin: 10px;
+  }
+   */
+
+
+   body {
+    font-family: 'Roboto', sans-serif;
+    background-color: #f4f7f6;
+    color: #333;
+    margin: 0;
+    padding: 0;
+}
+
+.table-container {
+    width: 90%;
+    margin: 30px auto;
+    background-color: #fff;
+    padding: 20px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+}
+
+h2 {
+    text-align: center;
+    color: #4CAF50;
+}
+
+.table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+}
+
+.table th, .table td {
+    padding: 15px;
+    text-align: left;
+}
+
+.table th {
+    background-color: #4CAF50;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.table th:hover {
+    background-color: #45a049;
+}
+
+.table td {
+    background-color: #f9f9f9;
+    border-bottom: 1px solid #ddd;
+    transition: background-color 0.3s ease;
+}
+
+.table-striped tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+.table-striped tr.selected {
+    background-color: #e0f7fa; /* Highlight selected row */
+}
+
+.table td input {
+    width: 100%;
+    border: 1px solid #ddd;
+    padding: 5px;
+    box-sizing: border-box;
+    border-radius: 4px;
+    font-size: 1rem;
+}
+
+button {
+    padding: 10px;
+    margin: 5px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+button:hover {
+    transform: scale(1.05);
+}
+
+#addRowButton, #upButton, #downButton, #deleteButton, #undoButton, #saveButton1 {
+    background-color: #4CAF50;
+    color: white;
+}
+
+#addRowButton:hover, #upButton:hover, #downButton:hover, #deleteButton:hover, #undoButton:hover, #saveButton1:hover {
+    background-color: #45a049;
+}
+
+#saveButton1 {
+    background-color: #2196F3;
+}
+
+#saveButton1:hover {
+    background-color: #1e88e5;
+}
+
+button:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+}
+
+input[type="checkbox"] {
+    transform: scale(1.5);
+    margin-right: 10px;
+    cursor: pointer;
+}
+
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.6);
+    animation: fadeIn 0.5s;
+}
+
+.modal-content {
+    background-color: white;
+    margin: 10% auto;
+    padding: 30px;
+    border-radius: 10px;
+    width: 60%;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    animation: slideDown 0.4s;
+}
+
+.close {
+    color: #aaa;
+    float: right;
+    font-size: 30px;
+    font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.modal h2 {
+    margin-top: 0;
+    color: #4CAF50;
+    font-size: 1.5rem;
+}
+
+#editForm label {
+    display: block;
+    margin: 10px 0 5px;
+    font-weight: bold;
+}
+
+#editForm input[type="text"],
+#editForm input[type="number"] {
+    width: calc(100% - 20px);
+    padding: 10px;
+    margin: 5px 0;
+    border-radius: 5px;
+    border: 1px solid #ddd;
+    font-size: 1rem;
+}
+
+#saveButton, #cancelButton {
+    padding: 10px 20px;
+    margin: 10px;
+    border-radius: 5px;
+    border: none;
+    cursor: pointer;
+    font-size: 1rem;
+}
+
+#saveButton {
+    background-color: #2196F3;
+    color: white;
+}
+
+#saveButton:hover {
+    background-color: #1e88e5;
+}
+
+#cancelButton {
+    background-color: #f44336;
+    color: white;
+}
+
+#cancelButton:hover {
+    background-color: #e53935;
+}
+
+#pagination {
+    margin-top: 20px;
+    text-align: center;
+}
+
+#pagination button {
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    margin: 5px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1rem;
+}
+
+#pagination button:hover {
+    background-color: #45a049;
+}
+
+.modal-content {
+  background-color: #fefefe;
+  margin: 5% auto; /* Decrease margin to bring the popup higher */
+  padding: 20px;
+  border: 1px solid #888;
+  width: 50%;
+  max-height: 80vh; /* Limit the height to 80% of the viewport */
+  overflow-y: auto; /* Add scroll if content exceeds the height */
+  box-sizing: border-box;
+}
+
+/* Highlight selected row */
+#chemicalTable tr.selected {
+  background-color: #e0f7fa; /* Light blue background */
+  transition: background-color 0.3s ease; /* Smooth transition */
+}
+
+/* Optionally, add hover effect to selected row */
+#chemicalTable tr.selected:hover {
+  background-color: #b2ebf2; /* Darker blue on hover */
+}
+
+.selected {
+  background-color: #cce5ff; /* Light blue color for selected row */
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes slideDown {
+    from {
+        transform: translateY(-50px);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}

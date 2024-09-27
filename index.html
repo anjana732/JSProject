@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chemical Supplies</title>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+
+  <div class="table-container">
+    <h2>Chemical Supplies</h2>
+    <div>
+      <button id="addRowButton"><i class="fa-solid fa-plus"></i></button>
+      <button id="upButton" disabled><i class="fa-solid fa-arrow-up"></i></i></button>
+      <button id="downButton" disabled><i class="fa-solid fa-arrow-down"></i></button>
+      <button id="deleteButton" disabled><i class="fa-solid fa-trash"></i></button>
+      <!-- <button id="refreshButton"></button> -->
+      <button id="saveButton1"><i class="fa-solid fa-file"></i></button>
+      <button id="undoButton" onclick="undo()"><i class="fa-solid fa-rotate-left"></i></button>
+    </div>
+    
+    <table id="chemicalTable" class="table table-striped">
+      <thead>
+        <tr>
+          <th>Check</th>
+          <th>ID</th>
+          <th>Chemical Name</th>
+          <th>Vendor</th>
+          <th>Density</th>
+          <th>Viscosity</th>
+          <th>Packaging</th>
+          <th>Pack Size</th>
+          <th>Unit</th>
+          <th>Quantity</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody id="tableBody">
+        <!-- Rows will be dynamically populated using JavaScript -->
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Pagination controls -->
+  <div id="pagination"></div>
+
+  <!-- Modal for editing -->
+  <div id="editModal" class="modal">
+    <div class="modal-content">
+      <span class="close">&times;</span>
+      <h2>Edit Chemical Details</h2>
+      <form id="editForm">
+        <label for="editId">ID:</label>
+        <input type="text" id="editId" name="id" disabled><br>
+        <label for="editChemicalName">Chemical Name:</label>
+        <input type="text" id="editChemicalName" name="chemicalName"><br>
+        <label for="editVendor">Vendor:</label>
+        <input type="text" id="editVendor" name="vendor"><br>
+        <label for="editDensity">Density:</label>
+        <input type="number" id="editDensity" name="density"><br>
+        <label for="editViscosity">Viscosity:</label>
+        <input type="number" id="editViscosity" name="viscosity"><br>
+        <label for="editPackaging">Packaging:</label>
+        <input type="text" id="editPackaging" name="packaging"><br>
+        <label for="editPackSize">Pack Size:</label>
+        <input type="number" id="editPackSize" name="packSize"><br>
+        <label for="editUnit">Unit:</label>
+        <input type="text" id="editUnit" name="unit"><br>
+        <label for="editQuantity">Quantity:</label>
+        <input type="number" id="editQuantity" name="quantity"><br>
+      </form>
+      <button id="saveButton">Save</button>
+      <button id="cancelButton">Cancel</button>
+    </div>
+  </div>
+
+  <script src="index.js"></script>
+</body>
+</html>
