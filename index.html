@@ -16,9 +16,8 @@
       <button id="upButton" disabled><i class="fa-solid fa-arrow-up"></i></i></button>
       <button id="downButton" disabled><i class="fa-solid fa-arrow-down"></i></button>
       <button id="deleteButton" disabled><i class="fa-solid fa-trash"></i></button>
-      <!-- <button id="refreshButton"></button> -->
       <button id="saveButton1"><i class="fa-solid fa-file"></i></button>
-      <button id="undoButton" onclick="undo()"><i class="fa-solid fa-rotate-left"></i></button>
+      <button id="undoButton"><i class="fa-solid fa-rotate-left"></i></button>
     </div>
     
     <table id="chemicalTable" class="table table-striped">
@@ -38,15 +37,11 @@
         </tr>
       </thead>
       <tbody id="tableBody">
-        <!-- Rows will be dynamically populated using JavaScript -->
       </tbody>
     </table>
   </div>
 
-  <!-- Pagination controls -->
   <div id="pagination"></div>
-
-  <!-- Modal for editing -->
   <div id="editModal" class="modal">
     <div class="modal-content">
       <span class="close">&times;</span>
@@ -75,7 +70,7 @@
       <button id="cancelButton">Cancel</button>
     </div>
   </div>
-
+  <script src="https://unpkg.com/sweetalert2@7.8.2/dist/sweetalert2.all.js"></script>
   <script src="index.js"></script>
 </body>
 </html>

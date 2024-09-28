@@ -19,9 +19,10 @@ const data = [
 
 const originalData = [...data];
 const stateStack = [];
-let selectedRowIndex = null;
+var selectedRowIndex = null;
 let currentPage = 1;
 const recordsPerPage = 4;
+let editingRowId = null;
 
 
 function populateTable() {
@@ -50,7 +51,7 @@ function populateTable() {
       <td>${row.packSize}</td>
       <td>${row.unit}</td>
       <td>${row.quantity}</td>
-      <td><button id="edit-button" onclick="editRow(${i})"><i class="fa-solid fa-pen-to-square"></i></button></td>
+      <td><button id="edit-button"  onclick="editRow(${i},this)"><i class="fa-solid fa-pen-to-square"></i></button></td>
     `;
     tr.addEventListener('click', () => selectRow(i));
     tableBody.appendChild(tr);
@@ -67,6 +68,7 @@ function pushState() {
 let sortDirection = {};
 
 function sortTable(column, type) {
+  pushState();
   const direction = sortDirection[column] === 'asc' ? 'desc' : 'asc';
   sortDirection[column] = direction;
 
@@ -94,7 +96,7 @@ document.querySelectorAll('th').forEach((th, index) => {
         break;
       case 2:
         sortTable('chemicalName', 'string');
-        break;ren
+        break;
 
       case 3:
         sortTable('vendor', 'string');
@@ -124,49 +126,11 @@ document.querySelectorAll('th').forEach((th, index) => {
   });
 });
 
-function selectRow(index) {
-  if (selectedRowIndex === index) {
-    selectedRowIndex = null;
-  } else {
-    selectedRowIndex = index;
-  }
-
-  document.getElementById('upButton').disabled = selectedRowIndex === null || selectedRowIndex === 0;
-  document.getElementById('downButton').disabled = selectedRowIndex === null || selectedRowIndex === data.length - 1;
-  document.getElementById('deleteButton').disabled = selectedRowIndex === null;
-
-  const checkboxes = document.querySelectorAll('input[type="checkbox"]');
-  checkboxes.forEach((checkbox, idx) => {
-    checkbox.checked = idx === selectedRowIndex;
-  });
-}
-
-
-
-const editButtons = document.querySelectorAll('#edit-button');
-editButtons.forEach((button, index) => {
-    button.addEventListener('click', function () {
-        selectedRowIndex = index; 
-        const row = data[selectedRowIndex];
-        document.getElementById('editId').value = row.id;
-        document.getElementById('editChemicalName').value = row.chemicalName;
-        document.getElementById('editVendor').value = row.vendor;
-        document.getElementById('editDensity').value = row.density;
-        document.getElementById('editViscosity').value = row.viscosity;
-        document.getElementById('editPackaging').value = row.packaging;
-        document.getElementById('editPackSize').value = row.packSize;
-        document.getElementById('editUnit').value = row.unit;
-        document.getElementById('editQuantity').value = row.quantity;
-
-        document.getElementById('editModal').style.display = 'block'; // Show the modal
-    });
-});
-
-
-
 function editRow(index) {
   const rowData = data[index];
-  selectedRowIndex = index;
+ // selectedRowIndex = index;
+  editingRowId = rowData.id;
+  console.log("Selected row inside edit row:"+selectedRowIndex);
   pushState(); 
   document.getElementById('editId').value = rowData.id;
   document.getElementById('editChemicalName').value = rowData.chemicalName;
@@ -180,6 +144,35 @@ function editRow(index) {
 
   document.getElementById('editModal').style.display = 'block';
 }
+
+
+function selectRow(index) {
+  if (selectedRowIndex === index) {
+    selectedRowIndex = null;
+  } else {
+    selectedRowIndex = index;
+
+  }
+
+  document.getElementById('upButton').disabled = selectedRowIndex === null || selectedRowIndex === 0;
+  document.getElementById('downButton').disabled = selectedRowIndex === null || selectedRowIndex === data.length - 1;
+  document.getElementById('deleteButton').disabled = selectedRowIndex === null;
+
+  const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+  checkboxes.forEach((checkbox, idx) => {
+    checkbox.checked = idx === selectedRowIndex;
+    const row = checkbox.closest('tr'); 
+    if (idx === selectedRowIndex) {
+      checkbox.checked = true; 
+      row.classList.add('highlighted'); 
+    } else {
+      checkbox.checked = false; 
+      row.classList.remove('highlighted'); 
+    }
+
+  });
+}
+
 
 function saveChanges() {
   pushState(); 
@@ -195,11 +188,15 @@ function saveChanges() {
     quantity: parseFloat(document.getElementById('editQuantity').value),
   };
 
-  if (selectedRowIndex !== null) {
+    console.log("selected index"+ selectedRowIndex);
+  if (editingRowId !== null ) {
    
     data[selectedRowIndex] = editedRow; 
-  } else {
+    swal("", "Data Edited Successfully", "success")
+    editingRowId = null;
+  } else if(selectedRowIndex == null){
     data.unshift(editedRow); 
+    swal("", "Data Added Successfully", "success")
   }
 
   closeModal();
@@ -234,8 +231,8 @@ document.getElementById('upButton').addEventListener('click', function () {
   if (selectedRowIndex > 0) {
     pushState(); 
     [data[selectedRowIndex - 1], data[selectedRowIndex]] = [data[selectedRowIndex], data[selectedRowIndex - 1]];
-    selectedRowIndex--;
     populateTable();
+    selectedRowIndex--;
   }
 });
 
@@ -243,8 +240,8 @@ document.getElementById('downButton').addEventListener('click', function () {
   if (selectedRowIndex < data.length - 1) {
     pushState(); 
     [data[selectedRowIndex], data[selectedRowIndex + 1]] = [data[selectedRowIndex + 1], data[selectedRowIndex]];
-    selectedRowIndex++;
     populateTable();
+    selectedRowIndex++;
   }
 });
 
