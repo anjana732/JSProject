@@ -162,6 +162,7 @@ function selectRow(index) {
   checkboxes.forEach((checkbox, idx) => {
     checkbox.checked = idx === selectedRowIndex;
     const row = checkbox.closest('tr'); 
+    
     if (idx === selectedRowIndex) {
       checkbox.checked = true; 
       row.classList.add('highlighted'); 
@@ -243,6 +244,7 @@ document.getElementById('downButton').addEventListener('click', function () {
     populateTable();
     selectedRowIndex++;
   }
+  
 });
 
 document.getElementById('deleteButton').addEventListener('click', function () {
@@ -254,6 +256,7 @@ document.getElementById('deleteButton').addEventListener('click', function () {
     document.getElementById('upButton').disabled = true;
     document.getElementById('downButton').disabled = true;
     document.getElementById('deleteButton').disabled = true;
+    swal("", "Your data is Deleted", "error");
   }
 });
 

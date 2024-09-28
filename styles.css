@@ -108,7 +108,6 @@ button:disabled {
 input[type="checkbox"] {
     transform: scale(1.5);
     margin-right: 10px;
-    cursor: pointer;
 }
 
 .modal {
@@ -245,6 +244,9 @@ input[type="checkbox"] {
     color: #888;
 }
 
+tr{
+    cursor: pointer;
+}
 @keyframes fadeIn {
     from {
         opacity: 0;
