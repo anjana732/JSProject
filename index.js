@@ -1,4 +1,4 @@
-const data = [
+let data = [
   { "id": 1, "chemicalName": "Ammonium Persulfate", "vendor": "LG Chem", "density": 3525.92, "viscosity": 60.631, "packaging": "Bag", "packSize": 100, "unit": "kg", "quantity": 6495.18 },
   { "id": 2, "chemicalName": "Caustic Potash", "vendor": "Formosa", "density": 3172.15, "viscosity": 48.22, "packaging": "Bag", "packSize": 100, "unit": "kg", "quantity": 8751.90 },
   { "id": 3, "chemicalName": "Dimethylaminopropylamine", "vendor": "LG Chem", "density": 8453.37, "viscosity": 12.62, "packaging": "Barrel", "packSize": 75, "unit": "L", "quantity": 5964.61 },
@@ -29,7 +29,7 @@ function populateTable() {
 
   const currentState = structuredClone(data);
   stateStack.push(currentState);
-  stateStack.push(JSON.parse(JSON.stringify(data)));
+  //stateStack.push(JSON.parse(JSON.stringify(data)));
 
   const tableBody = document.getElementById('tableBody');
   tableBody.innerHTML = '';
@@ -62,6 +62,7 @@ function populateTable() {
 
 function pushState() {
   stateStack.push(structuredClone(data));
+  console.log("Data added to stack");
 }
 
 
@@ -148,10 +149,12 @@ function editRow(index) {
 
 function selectRow(index) {
   if (selectedRowIndex === index) {
+  
     selectedRowIndex = null;
+  
   } else {
     selectedRowIndex = index;
-
+  
   }
 
   document.getElementById('upButton').disabled = selectedRowIndex === null || selectedRowIndex === 0;
@@ -204,7 +207,6 @@ function saveChanges() {
   populateTable();
 }
 
-
 document.getElementById('addRowButton').addEventListener('click', function () {
   pushState(); 
   selectedRowIndex = null;  
@@ -231,9 +233,11 @@ function closeModal() {
 document.getElementById('upButton').addEventListener('click', function () {
   if (selectedRowIndex > 0) {
     pushState(); 
+  
     [data[selectedRowIndex - 1], data[selectedRowIndex]] = [data[selectedRowIndex], data[selectedRowIndex - 1]];
-    populateTable();
     selectedRowIndex--;
+   populateTable();
+   
   }
 });
 
@@ -241,8 +245,9 @@ document.getElementById('downButton').addEventListener('click', function () {
   if (selectedRowIndex < data.length - 1) {
     pushState(); 
     [data[selectedRowIndex], data[selectedRowIndex + 1]] = [data[selectedRowIndex + 1], data[selectedRowIndex]];
-    populateTable();
-    selectedRowIndex++;
+   selectedRowIndex++;
+   populateTable();
+
   }
   
 });
@@ -270,6 +275,7 @@ function updatePaginationButtons() {
 }
 
 function nextPage() {
+  
   const totalPages = Math.ceil(data.length / recordsPerPage);
   if (currentPage < totalPages) {
     currentPage++;
@@ -294,17 +300,18 @@ function undo() {
   if (stateStack.length > 1) {
     stateStack.pop(); 
     data = structuredClone(stateStack[stateStack.length - 1]); 
+    console.log("undo called");
     populateTable(); 
   } else {
     console.log("No more actions to undo");
   }
 }
 
+document.getElementById('undoButton').addEventListener('click', undo);
 
 document.getElementById('saveButton1').addEventListener('click', function () {
 
   const printWindow = window.open('', '_blank');
-
 
   printWindow.document.write(`
     <html>
